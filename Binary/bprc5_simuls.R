@@ -6,7 +6,7 @@ library(matrixStats)
 library(klaR)
 library(ludic)
 
-
+## Simulation to compute/draw precision-recall for different thresholds
 doOne1 <- function(nA, nB, K, prev, error){
   source("b1_generate_data.R")
   source("b2_compare.R")

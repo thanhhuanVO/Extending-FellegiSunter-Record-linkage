@@ -1,3 +1,7 @@
+### Generate two database A (nA units) and database B (nB units) 
+# with K continuous matching variables
+# We consider different combination distribution for matching data and errors
+
 
 #Exponential data and exponential error
 generate_data_exp_exp = function(nA, nB, K, lambdaK, error, lambdaE, round = FALSE){

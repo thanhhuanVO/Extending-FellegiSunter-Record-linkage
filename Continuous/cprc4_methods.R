@@ -1,7 +1,8 @@
 library(clue)
 
+## Computing precision-recall with diferent threshold using diferent method
+
 tpr_ppv <- function(g, indM, n_matches){
-  #thresholds = seq(0,1,length.out = 11)
   
   thresholds = c(0,
                  1e-100,1e-20,1e-5,1e-2,0.05,
@@ -28,9 +29,7 @@ tpr_ppv <- function(g, indM, n_matches){
 }
 
 FS_gamma <- function(datA, datB, K,  tol = 1e-6, maxits = 500){
-  #start = list(lambda = c(0.002,0.998), p0 = matrix(rep(c(0.3,0.02),K), ncol =K), 
-  #             alpha = matrix(rep(c(1,1),K), ncol =K), 
-  #             beta = matrix(rep(c(1,50),K), ncol =K))
+
   
   comp_mat = compare_abs(datA = datA,datB = datB, K =K)
   nB =  nrow(datB)
@@ -60,10 +59,7 @@ FS_gamma <- function(datA, datB, K,  tol = 1e-6, maxits = 500){
 
 
 FS_gamma_sqr <- function(datA, datB, K,  tol = 1e-6, maxits = 500){
-  #start = list(lambda = c(0.002,0.998), p0 = matrix(rep(c(0.3,0.02),K), ncol =K), 
-  #             alpha = matrix(rep(c(1,1),K), ncol =K), 
-  #             beta = matrix(rep(c(1,50),K), ncol =K))
-  
+
   comp_mat = compare_abs(datA = datA,datB = datB, K =K)
   nB =  nrow(datB)
   nA =  nrow(datA)

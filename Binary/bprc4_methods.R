@@ -5,6 +5,8 @@ library(klaR)
 library(ludic)
 #library(doBy)
 
+### To compute precision-recall for different threshold
+
 tpr_ppv <- function(g, indM, n_matches){
   
   thresholds = c(0,

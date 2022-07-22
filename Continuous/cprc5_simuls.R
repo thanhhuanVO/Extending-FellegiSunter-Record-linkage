@@ -4,7 +4,7 @@ library(clue)
 library(matrixStats)
 library(EnvStats)
 
-
+# Simulation for computing precison-recall with diferent threshold
 doOne_exp_exp <- function(nA, nB, K, lambdaK, error, lambdaE, round ){
   source("c1_generate_data.R")
   source("c2_compare.R")

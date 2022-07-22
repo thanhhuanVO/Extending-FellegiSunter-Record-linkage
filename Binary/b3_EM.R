@@ -2,7 +2,7 @@ library(clue)
 library(matrixStats)
 library(klaR)
 
-
+############ Implementation of EM algorithm
 check <- function(param, N){
   if (length(which(param < 1/N)) > 0) {
     param[which(param < 1/N)] <- 1/N

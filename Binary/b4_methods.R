@@ -4,7 +4,7 @@ library(matrixStats)
 library(klaR)
 library(ludic)
 
-
+# Fellegi-Sunter model with binary comparison
 FS <- function(datA, datB, K,tol=1e-6, maxits = 500){
   nA = nrow(datA)
   nB =  nrow(datB)
@@ -14,20 +14,7 @@ FS <- function(datA, datB, K,tol=1e-6, maxits = 500){
   fit <- EM_binary(comp_mat, datA, datB, K,tol = tol, maxits = maxits)
   g = fit$g
   converge = fit$converge
-  
-  
-  # Gmat = matrix(g, nrow = nB, byrow = TRUE)
-  # Gmat[Gmat<0.5] = 0
-  # opti_cate <- solve_LSAP(Gmat, maximum = TRUE)
-  # predict_cate = cbind(seq_along(opti_cate), opti_cate)
-  # temp = (predict_cate[,1]-1)*nA+ predict_cate[,2]
-  # # Percentage of correct link
-  # nPredict = sum((g[temp]>=0.5))
-  # nTruePredict = sum((predict_cate[,2] == datB[,K+1])&(g[temp]>=0.5))
-  # 
-  # TPR_FS11= nTruePredict/nB
-  # PPV_FS11 = nTruePredict/nPredict
-  
+
   threshold = 0.5
   index = which(g>= threshold)
   TPR_FS5 = sum(comp_mat[index,K+1])/nB
@@ -55,22 +42,6 @@ FS3 <- function(datA, datB, K, tol=1e-6, maxits = 500){
   converge = fit$converge
   
 
-  
-
-  # Gmat = matrix(g, nrow = nB, byrow = TRUE)
-  # Gmat[Gmat<0.5] = 0
-  # opti_cate <- solve_LSAP(Gmat, maximum = TRUE)
-  # predict_cate = cbind(seq_along(opti_cate), opti_cate)
-  # temp = (predict_cate[,1]-1)*nA+ predict_cate[,2]
-  # # Percentage of correct link
-  # nPredict = sum((g[temp]>=0.5))
-  # nTruePredict = sum((predict_cate[,2] == datB[,K+1])&(g[temp]>=0.5))
-  # 
-  # TPR_FS11= nTruePredict/nB
-  # PPV_FS11 = nTruePredict/nPredict
-
-  
-  
   threshold = 0.5
   index = which(g>= threshold)
   TPR_FS5 = sum(comp_mat[index,K+1])/nB
@@ -86,23 +57,41 @@ FS3 <- function(datA, datB, K, tol=1e-6, maxits = 500){
 }
 
 
+
+
+### Fellegi-Sunter with 4 categorical comparison
+FS4 <- function(datA, datB, K, comp_mat4, tol=1e-6, maxits = 500){
+  nA = nrow(datA)
+  nB = nrow(datB)
+  comp_mat <- compare4(datA, datB, K=K)
+  
+  
+  ## Using EM
+  fit = EM4(comp_mat, datA, datB, K, tol=tol, maxits = maxits)
+  
+  g = fit$g
+  converge = fit$converge
+
+  
+  threshold = 0.5
+  index = which(g>= threshold)
+  TPR_FS5 = sum(comp_mat[index,K+1])/nB
+  if (length(index)==0){
+    PPV_FS5 = 0
+  }else{
+    PPV_FS5 = sum(comp_mat[index,K+1])/length(index)
+  }
+  
+  
+  return(c(TPR_FS5, PPV_FS5, converge))
+}
+
+#### Bayesian linkage framework for binary matching variables of package ludic
 bayesian <- function(datA, datB, K){
   nB = nrow(datB)
   nA = nrow(datA)
   bayes = recordLink(datB[,1:K], datA[,1:K], eps_plus =0.01, eps_minus = 0.01,use_diff = FALSE)
   g = as.vector(t(bayes))
-
-  # Gmat = bayes
-  # Gmat[Gmat<0.5] = 0
-  # opti_cate <- solve_LSAP(Gmat, maximum = TRUE)
-  # predict_cate = cbind(seq_along(opti_cate), opti_cate)
-  # temp = (predict_cate[,1]-1)*nA+ predict_cate[,2]
-  # # Percentage of correct link
-  # nPredict = sum((g[temp]>=0.5))
-  # nTruePredict = sum((predict_cate[,2] == datB[,K+1])&(g[temp]>=0.5))
-  # 
-  # TPR_bayes11= nTruePredict/nB
-  # PPV_bayes11 = nTruePredict/nPredict
   
   #############################
   threshold = 0.5
@@ -121,48 +110,5 @@ bayesian <- function(datA, datB, K){
   }
   
   
- 
- 
   return(c(TPR_bayes5, PPV_bayes5, 1))
 }
-
-### Fellegi-Sunter with 4 categorical comparison
-FS4 <- function(datA, datB, K, comp_mat4, tol=1e-6, maxits = 500){
-  nA = nrow(datA)
-  nB = nrow(datB)
-  comp_mat <- compare4(datA, datB, K=K)
-  
-  
-  ## Using EM
-  fit = EM4(comp_mat, datA, datB, K, tol=tol, maxits = maxits)
-  
-  g = fit$g
-  converge = fit$converge
-
-  
-  
-  # Gmat = matrix(g, nrow = nB, byrow = TRUE)
-  # Gmat[Gmat<0.5] = 0
-  # opti_cate <- solve_LSAP(Gmat, maximum = TRUE)
-  # predict_cate = cbind(seq_along(opti_cate), opti_cate)
-  # temp = (predict_cate[,1]-1)*nA+ predict_cate[,2]
-  # # Percentage of correct link
-  # nPredict = sum((g[temp]>=0.5))
-  # nTruePredict = sum((predict_cate[,2] == datB[,K+1])&(g[temp]>=0.5))
-  # 
-  # TPR_FS11= nTruePredict/nB
-  # PPV_FS11 = nTruePredict/nPredict
-  
-  threshold = 0.5
-  index = which(g>= threshold)
-  TPR_FS5 = sum(comp_mat[index,K+1])/nB
-  if (length(index)==0){
-    PPV_FS5 = 0
-  }else{
-    PPV_FS5 = sum(comp_mat[index,K+1])/length(index)
-  }
-  
-  
-  return(c(TPR_FS5, PPV_FS5, converge))
-}
-

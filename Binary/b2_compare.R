@@ -1,6 +1,6 @@
 library(doParallel)
 
-# Fellei-Sunter using 3 categorical comparison 
+# The proposed 3 categorical comparison for binary matching variables
 compare3 <- function(datA, datB, K){
   compare1 <- function(k, datA, datB, K){
     XA.k = datA[,k]
@@ -19,7 +19,7 @@ compare3 <- function(datA, datB, K){
   return(comp_mat)
 }
 
-
+# The proposed 4 categorical comparison for binary matching variables
 compare4 <- function(datA, datB, K){
   compare1 <- function(k, datA, datB, K){
     XA.k = datA[,k]
@@ -38,6 +38,8 @@ compare4 <- function(datA, datB, K){
   return(comp_mat)
 }
 
+
+# # The standard binary comparison for binary matching variables
 compare_binary <- function(datA, datB, K){
   compare1 <- function(k, datA, datB, K){
     XA.k = datA[,k]

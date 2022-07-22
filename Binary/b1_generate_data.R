@@ -1,5 +1,5 @@
 
-# Make error for one binary vector x
+# sub-function: Making error for one binary vector x
 makeError <- function(x,error){
   #x is a column of B
   #error is a proportion of error
@@ -9,9 +9,14 @@ makeError <- function(x,error){
   return(x)
 }
 
-generate_data <- function(nA, nB, K, prevalence, error, min_prev = 0.01){
-  #prevalence = rep(c(0.05,0.1,0.2,0.3,0.4), K/5)
 
+# This function is used to generate two database for linkage
+# Database A with nA units and database B with nB units
+# K: number of matching variables
+# prevalence: frequency of low prevalence values
+# error: proportion of error
+# min_prev: minimum bound for the frequency of generated data
+generate_data <- function(nA, nB, K, prevalence, error, min_prev = 0.01){
   # First database A
   datA = matrix(0, nrow = nA, ncol = K+1)
   datA[,K+1] = 1:nA #id

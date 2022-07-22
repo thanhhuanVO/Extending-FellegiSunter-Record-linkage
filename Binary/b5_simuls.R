@@ -6,7 +6,7 @@ library(matrixStats)
 library(klaR)
 library(ludic)
 
-
+# Function for parallel simulation sith simsalapar package
 doOne1 <- function(nA, nB, K, prev, error){
   library(tictoc)
   source("b1_generate_data.R")
@@ -41,11 +41,11 @@ doOne1 <- function(nA, nB, K, prev, error){
   temp = toc(quiet = TRUE)
   time_Bayesian <- temp$toc-temp$tic
   
-  results <- c(FS, FS3,FS4, Bayesian, time_FS, time_FS3, time_FS4, time_Bayesian)
+  results <- c(FS, FS3, FS4, Bayesian, time_FS, time_FS3, time_FS4, time_Bayesian)
   return(results)
 }
 
-
+# Simulation parameters
 vlis1 <- function(nsim=100) {
   vList <- simsalapar::varlist(
     n.sim = list(value = nsim, expr = quote(N[sim])), # , type = "N"
@@ -89,20 +89,10 @@ runSims <- function(vList=vlis1(),doOne = doOne1, seedList=NULL){
   return(res)
 }
 
-#setwd("C:\\Users\\thanhvo\\Dropbox\\R_program\\First_paper\\Binary\\Programs")
-#setwd("C:\\Users\\thhvo.BCOM\\Dropbox\\R_program\\First_paper\\Binary\\Programs")
 
-
-nsim = 100
+nsim = 1000
 
 res1 <- runSims(vlis1(nsim), doOne = doOne1, seedList = 1:nsim)
-save(res1, file="0722_100s_res1_binary.RData")
-
-#res2 <- runSims(vlis2(nsim), doOne = doOne1)
-#save(res2, file="0324_1000s_res2_binary.RData")
-
-#res3 <- runSims(vlis3(nsim), doOne = doOne1)
-#save(res3, file="0324_1000s_res3_binary.RData")
 
 
 
