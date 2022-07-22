@@ -1,0 +1,2 @@
+These are all R programs of all simulation Scenarios for the article: 
+"Extending the Fellegi-Sunter record linkage model for mixed-type data with application to the French national health data system".
